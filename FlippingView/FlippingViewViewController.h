@@ -18,7 +18,10 @@
     NSArray *_alphaArray;
     NSMutableArray *_gameLetters;
     NSMutableArray *_usedRandomList;
+    IBOutlet UIView *_gameView;
+    IBOutlet UIView *_menuView;
 }
+
 @property (nonatomic, retain) NSArray *alphaArray;
 @property (nonatomic, retain) NSMutableArray *gameLetters;
 @property int openTiles;

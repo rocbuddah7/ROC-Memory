@@ -20,6 +20,7 @@
 @synthesize gameLetters = _gameLetters;
 @synthesize usedRandomList = _usedRandomList;
 
+
 -(int)generateRandomInt
 {
     int j = arc4random() % 25;
@@ -117,13 +118,15 @@
 -(void)setBoard{
     for (int i=0;i<[_containerList count];i++){
         ContainerView *c = [_containerList objectAtIndex:i];
-        [self.view addSubview:c];
+        [_gameView addSubview:c];
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        return;
+        [self clearBoard];
+        [self clearBoard];
+        [self.view bringSubviewToFront:_menuView];
 	}
 	else {
         [self clearBoard];
@@ -149,7 +152,7 @@
                               initWithTitle: @"Olivia's Game"
                               message: @"New game?"
                               delegate: self
-                              cancelButtonTitle:@"Cancel"
+                              cancelButtonTitle:@"Menu"
                               otherButtonTitles:@"OK", nil];
         [alert show];
         [alert release];
@@ -206,7 +209,10 @@
     _currentLetter = nil;
     [_timer release];
     _timer = nil;
-
+    [_gameView release];
+    _gameView = nil;
+    [_menuView release];
+    _menuView = nil;
     [super dealloc];
 }
 
@@ -223,7 +229,7 @@
 -(void)loadGame
 {
     //SET UP CONSTANT ARRAY
-    self.view.backgroundColor = [UIColor whiteColor];
+    //self.view.backgroundColor = [UIColor whiteColor];
     _alphaArray = [[NSArray alloc] initWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
     _gameLetters = [[NSMutableArray alloc] init];
     [self createGameLetters];
@@ -235,9 +241,14 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
-    [self loadGame];
+    //[self loadGame];
     //self.view.backgroundColor = [UIColor whiteColor];
     //[self loadMenu];
+    self.view.backgroundColor = [UIColor whiteColor];
+    _gameView.backgroundColor = [UIColor whiteColor];
+    _menuView.backgroundColor = [UIColor orangeColor];
+    [self.view addSubview:_gameView];
+    [self.view addSubview:_menuView];
     [super viewDidLoad];
 }
 
@@ -252,6 +263,12 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(IBAction)moveGameViewToFront
+{
+    [self loadGame];
+    [self.view bringSubviewToFront:_gameView];   
 }
 
 @end
