@@ -9,6 +9,15 @@
 #import "FlippingViewViewController.h"
 #import "ContainerView.h"
 
+//total x is 320
+//total y is 410
+//spacer x = (320 - (tile width * number of x tiles)) / (number of x tiles + 1)
+//spacer y = (410 - (tile height * number of y tiles)) / (number of y tiles + 1)
+const int TILE_WIDTH = 100;
+const int TILE_HEIGHT = 100;
+const int NUM_X_TILES = 3;
+const int NUM_Y_TILES = 4;
+
 @implementation FlippingViewViewController
 @synthesize openTiles = _openTiles;
 @synthesize currentLetter = _currentLetter;
@@ -19,7 +28,6 @@
 @synthesize alphaArray = _alphaArray;
 @synthesize gameLetters = _gameLetters;
 @synthesize usedRandomList = _usedRandomList;
-
 
 -(int)generateRandomInt
 {
@@ -86,30 +94,44 @@
     }
 }
 
+-(int)getXSpacer:(int)numOfXTiles
+{
+    int temp = (320 - (TILE_WIDTH * numOfXTiles)) / (numOfXTiles + 1);
+    return temp;
+}
+
+-(int)getYSpacer:(int)numOfYTiles
+{
+    int temp = (410 - (TILE_HEIGHT * numOfYTiles)) / (numOfYTiles + 1);
+    return temp;    
+}
+
 -(void)populateContainerList{
-    ContainerView *R = [[[ContainerView alloc] initWithFrame:CGRectMake(5, 20, 100, 100) :[self randomLetter]] autorelease];
+    int X_SPACER = [self getXSpacer:NUM_X_TILES];
+    int Y_SPACER = [self getYSpacer:NUM_Y_TILES];
+    ContainerView *R = [[[ContainerView alloc] initWithFrame:CGRectMake(X_SPACER, Y_SPACER, TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     R.viewController = self;
-    ContainerView *A = [[[ContainerView alloc] initWithFrame:CGRectMake(110, 20, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *A = [[[ContainerView alloc] initWithFrame:CGRectMake(TILE_WIDTH + (X_SPACER * 2), Y_SPACER, TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     A.viewController = self;
-    ContainerView *O = [[[ContainerView alloc] initWithFrame:CGRectMake(215, 20, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *O = [[[ContainerView alloc] initWithFrame:CGRectMake((TILE_WIDTH * 2) + (X_SPACER * 3), Y_SPACER, TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     O.viewController = self;
-    ContainerView *R1 = [[[ContainerView alloc] initWithFrame:CGRectMake(5, 125, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *R1 = [[[ContainerView alloc] initWithFrame:CGRectMake(X_SPACER, TILE_HEIGHT + (Y_SPACER * 2), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     R1.viewController = self;
-    ContainerView *A1 = [[[ContainerView alloc] initWithFrame:CGRectMake(110, 125, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *A1 = [[[ContainerView alloc] initWithFrame:CGRectMake(TILE_WIDTH + (X_SPACER * 2), TILE_HEIGHT + (Y_SPACER * 2), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     A1.viewController = self;
-    ContainerView *O1 = [[[ContainerView alloc] initWithFrame:CGRectMake(215, 125, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *O1 = [[[ContainerView alloc] initWithFrame:CGRectMake((TILE_WIDTH * 2) + (X_SPACER * 3), TILE_HEIGHT + (Y_SPACER * 2), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     O1.viewController = self;
-    ContainerView *R2 = [[[ContainerView alloc] initWithFrame:CGRectMake(5, 230, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *R2 = [[[ContainerView alloc] initWithFrame:CGRectMake(X_SPACER, (TILE_HEIGHT * 2) + (Y_SPACER * 3), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     R2.viewController = self;
-    ContainerView *A2 = [[[ContainerView alloc] initWithFrame:CGRectMake(110, 230, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *A2 = [[[ContainerView alloc] initWithFrame:CGRectMake(TILE_WIDTH + (X_SPACER * 2), (TILE_HEIGHT * 2) + (Y_SPACER * 3), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     A2.viewController = self;
-    ContainerView *O2 = [[[ContainerView alloc] initWithFrame:CGRectMake(215, 230, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *O2 = [[[ContainerView alloc] initWithFrame:CGRectMake((TILE_WIDTH * 2) + (X_SPACER * 3), (TILE_HEIGHT * 2) + (Y_SPACER * 3), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     O2.viewController = self;
-    ContainerView *R3 = [[[ContainerView alloc] initWithFrame:CGRectMake(5, 335, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *R3 = [[[ContainerView alloc] initWithFrame:CGRectMake(X_SPACER, (TILE_HEIGHT * 3) + (Y_SPACER * 4), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     R3.viewController = self;
-    ContainerView *A3 = [[[ContainerView alloc] initWithFrame:CGRectMake(110, 335, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *A3 = [[[ContainerView alloc] initWithFrame:CGRectMake(TILE_WIDTH + (X_SPACER * 2), (TILE_HEIGHT * 3) + (Y_SPACER * 4), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     A3.viewController = self;
-    ContainerView *O3 = [[[ContainerView alloc] initWithFrame:CGRectMake(215, 335, 100, 100) :[self randomLetter]] autorelease];
+    ContainerView *O3 = [[[ContainerView alloc] initWithFrame:CGRectMake((TILE_WIDTH * 2) + (X_SPACER * 3), (TILE_HEIGHT * 3) + (Y_SPACER * 4), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
     O3.viewController = self;
     
     _containerList = [[NSMutableArray alloc] initWithObjects:R, A, O, R1, A1, O1, R2, A2, O2, R3, A3, O3, nil];    
@@ -238,12 +260,39 @@
     [self startGame];    
 }
 
+#pragma mark - ADBannerViewDelegate
+-(void)loadAd
+{
+    ADBannerView *adView = [[[ADBannerView alloc] initWithFrame:CGRectZero] autorelease];
+	adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+	adView.delegate = self; //*********incredibly important*************//
+	adView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait,
+											 ADBannerContentSizeIdentifierLandscape,
+											 nil];
+	CGRect myRect = CGRectMake(0, 0, 320, 50);				
+	adView.frame = myRect;
+	adView.hidden = YES;
+	adView.userInteractionEnabled = NO;    
+}
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)adView 
+{	
+    //needed to remove iAd if there isn't any iAds there, required by Apple.
+	adView.userInteractionEnabled = YES;
+	adView.hidden = NO;
+	[self.view addSubview:adView];
+	
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    NSLog(@"%@", [error description]);
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
-    //[self loadGame];
-    //self.view.backgroundColor = [UIColor whiteColor];
-    //[self loadMenu];
+    [self loadAd];
     self.view.backgroundColor = [UIColor whiteColor];
     _gameView.backgroundColor = [UIColor whiteColor];
     _menuView.backgroundColor = [UIColor orangeColor];
@@ -272,8 +321,6 @@
 }
 
 @end
-
-
 
 
 

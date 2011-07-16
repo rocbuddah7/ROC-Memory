@@ -31,9 +31,15 @@
 {
     // Drawing code
     if (_isFront){
+        CGRect viewRect = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+        UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:(self.frame.size.height * 0.75)];
+        CGSize size = [_letter sizeWithFont:font];
+        float x_pos = (viewRect.size.width - size.width)/2;
+        float y_pos = (viewRect.size.height - size.height)/2;
         [[UIColor whiteColor] set];
         //[_letter drawInRect:rect withFont:[UIFont fontWithName:@"Helvetica-Bold" size:72]];
-        [_letter drawAtPoint:CGPointMake(25, 10) withFont:[UIFont fontWithName:@"Helvetica-Bold" size:72]];
+        [_letter drawAtPoint:CGPointMake(x_pos, y_pos) withFont:font];
+
     }
 }
 

@@ -10,6 +10,7 @@
 		933E299A13C3FE9300D4F46F /* 57.png in Resources */ = {isa = PBXBuildFile; fileRef = 933E299913C3FE9300D4F46F /* 57.png */; };
 		933E299C13C3FE9C00D4F46F /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = 933E299B13C3FE9C00D4F46F /* 114.png */; };
 		938EFFF913C3A619008855E3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 938EFFF813C3A619008855E3 /* Default.png */; };
+		93C5C74A13D145FF0055B809 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C5C74913D145FF0055B809 /* iAd.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		93F9E16A1399C4AE0008C46B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F9E1691399C4AE0008C46B /* UIKit.framework */; };
 		93F9E16C1399C4AE0008C46B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F9E16B1399C4AE0008C46B /* Foundation.framework */; };
 		93F9E16E1399C4AE0008C46B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F9E16D1399C4AE0008C46B /* CoreGraphics.framework */; };
@@ -27,6 +28,7 @@
 		933E299913C3FE9300D4F46F /* 57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 57.png; sourceTree = "<group>"; };
 		933E299B13C3FE9C00D4F46F /* 114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114.png; sourceTree = "<group>"; };
 		938EFFF813C3A619008855E3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		93C5C74913D145FF0055B809 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		93F9E1651399C4AE0008C46B /* Memory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F9E1691399C4AE0008C46B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93F9E16B1399C4AE0008C46B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -52,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93C5C74A13D145FF0055B809 /* iAd.framework in Frameworks */,
 				93F9E16A1399C4AE0008C46B /* UIKit.framework in Frameworks */,
 				93F9E16C1399C4AE0008C46B /* Foundation.framework in Frameworks */,
 				93F9E16E1399C4AE0008C46B /* CoreGraphics.framework in Frameworks */,
@@ -64,6 +67,7 @@
 		93F9E15A1399C4AE0008C46B = {
 			isa = PBXGroup;
 			children = (
+				93C5C74913D145FF0055B809 /* iAd.framework */,
 				933E299B13C3FE9C00D4F46F /* 114.png */,
 				933E299913C3FE9300D4F46F /* 57.png */,
 				938EFFF813C3A619008855E3 /* Default.png */,
@@ -250,7 +254,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlippingView/FlippingView-Prefix.pch";
 				INFOPLIST_FILE = "FlippingView/FlippingView-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = Memory;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
@@ -305,7 +309,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlippingView/FlippingView-Prefix.pch";
 				INFOPLIST_FILE = "FlippingView/FlippingView-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = Memory;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -320,7 +324,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlippingView/FlippingView-Prefix.pch";
 				INFOPLIST_FILE = "FlippingView/FlippingView-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = Memory;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;

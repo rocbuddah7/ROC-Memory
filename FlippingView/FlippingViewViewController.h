@@ -6,9 +6,11 @@
 //  Copyright 2011 ROC Solutions Inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>   
+#import <UIKit/UIKit.h>  
+#import <iAd/ADBannerView.h>
+
 //testing code
-@interface FlippingViewViewController : UIViewController<UIAlertViewDelegate> {
+@interface FlippingViewViewController : UIViewController<UIAlertViewDelegate, ADBannerViewDelegate> {
     int _openTiles;
     NSString *_currentLetter;
     NSMutableArray *_containerList;
@@ -21,7 +23,6 @@
     IBOutlet UIView *_gameView;
     IBOutlet UIView *_menuView;
 }
-
 @property (nonatomic, retain) NSArray *alphaArray;
 @property (nonatomic, retain) NSMutableArray *gameLetters;
 @property int openTiles;
