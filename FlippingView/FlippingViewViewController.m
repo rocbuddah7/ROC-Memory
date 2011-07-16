@@ -13,10 +13,10 @@
 //total y is 410
 //spacer x = (320 - (tile width * number of x tiles)) / (number of x tiles + 1)
 //spacer y = (410 - (tile height * number of y tiles)) / (number of y tiles + 1)
-const int TILE_WIDTH = 100;
-const int TILE_HEIGHT = 100;
-const int NUM_X_TILES = 3;
-const int NUM_Y_TILES = 4;
+const int TILE_WIDTH = 50;
+const int TILE_HEIGHT = 50;
+const int DEFAULT_X_TILES = 4;
+const int DEFAULT_Y_TILES = 4;
 
 @implementation FlippingViewViewController
 @synthesize openTiles = _openTiles;
@@ -28,7 +28,10 @@ const int NUM_Y_TILES = 4;
 @synthesize alphaArray = _alphaArray;
 @synthesize gameLetters = _gameLetters;
 @synthesize usedRandomList = _usedRandomList;
-
+@synthesize adView = _adView;
+@synthesize numberOfXTiles = _numberOfXTiles;
+@synthesize numberOfYTiles = _numberOfYTiles;
+@synthesize totalTiles = _totalTiles;
 -(int)generateRandomInt
 {
     int j = arc4random() % 25;
@@ -54,9 +57,8 @@ const int NUM_Y_TILES = 4;
     
     if ([_gameLetters count] == 0)
     {
-        for (int j=1;j<=6;j++)
+        for (int j=1;j<=(_totalTiles/2);j++)
         {
-            //int i= arc4random() % 25;
             int i = [self generateRandomInt];
             //add duplicate letters into our gameLetters array
             [_gameLetters addObject:[_alphaArray objectAtIndex:i]];
@@ -96,45 +98,38 @@ const int NUM_Y_TILES = 4;
 
 -(int)getXSpacer:(int)numOfXTiles
 {
-    int temp = (320 - (TILE_WIDTH * numOfXTiles)) / (numOfXTiles + 1);
+    int temp = (_gameView.frame.size.width - (TILE_WIDTH * numOfXTiles)) / (numOfXTiles + 1);
     return temp;
 }
 
 -(int)getYSpacer:(int)numOfYTiles
 {
-    int temp = (410 - (TILE_HEIGHT * numOfYTiles)) / (numOfYTiles + 1);
+    int temp = ((_gameView.frame.size.height - 50) - (TILE_HEIGHT * numOfYTiles)) / (numOfYTiles + 1);
     return temp;    
 }
 
 -(void)populateContainerList{
-    int X_SPACER = [self getXSpacer:NUM_X_TILES];
-    int Y_SPACER = [self getYSpacer:NUM_Y_TILES];
-    ContainerView *R = [[[ContainerView alloc] initWithFrame:CGRectMake(X_SPACER, Y_SPACER, TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    R.viewController = self;
-    ContainerView *A = [[[ContainerView alloc] initWithFrame:CGRectMake(TILE_WIDTH + (X_SPACER * 2), Y_SPACER, TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    A.viewController = self;
-    ContainerView *O = [[[ContainerView alloc] initWithFrame:CGRectMake((TILE_WIDTH * 2) + (X_SPACER * 3), Y_SPACER, TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    O.viewController = self;
-    ContainerView *R1 = [[[ContainerView alloc] initWithFrame:CGRectMake(X_SPACER, TILE_HEIGHT + (Y_SPACER * 2), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    R1.viewController = self;
-    ContainerView *A1 = [[[ContainerView alloc] initWithFrame:CGRectMake(TILE_WIDTH + (X_SPACER * 2), TILE_HEIGHT + (Y_SPACER * 2), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    A1.viewController = self;
-    ContainerView *O1 = [[[ContainerView alloc] initWithFrame:CGRectMake((TILE_WIDTH * 2) + (X_SPACER * 3), TILE_HEIGHT + (Y_SPACER * 2), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    O1.viewController = self;
-    ContainerView *R2 = [[[ContainerView alloc] initWithFrame:CGRectMake(X_SPACER, (TILE_HEIGHT * 2) + (Y_SPACER * 3), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    R2.viewController = self;
-    ContainerView *A2 = [[[ContainerView alloc] initWithFrame:CGRectMake(TILE_WIDTH + (X_SPACER * 2), (TILE_HEIGHT * 2) + (Y_SPACER * 3), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    A2.viewController = self;
-    ContainerView *O2 = [[[ContainerView alloc] initWithFrame:CGRectMake((TILE_WIDTH * 2) + (X_SPACER * 3), (TILE_HEIGHT * 2) + (Y_SPACER * 3), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    O2.viewController = self;
-    ContainerView *R3 = [[[ContainerView alloc] initWithFrame:CGRectMake(X_SPACER, (TILE_HEIGHT * 3) + (Y_SPACER * 4), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    R3.viewController = self;
-    ContainerView *A3 = [[[ContainerView alloc] initWithFrame:CGRectMake(TILE_WIDTH + (X_SPACER * 2), (TILE_HEIGHT * 3) + (Y_SPACER * 4), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    A3.viewController = self;
-    ContainerView *O3 = [[[ContainerView alloc] initWithFrame:CGRectMake((TILE_WIDTH * 2) + (X_SPACER * 3), (TILE_HEIGHT * 3) + (Y_SPACER * 4), TILE_WIDTH, TILE_HEIGHT) :[self randomLetter]] autorelease];
-    O3.viewController = self;
+    int X_SPACER = [self getXSpacer:_numberOfXTiles];
+    int Y_SPACER = [self getYSpacer:_numberOfYTiles];
     
-    _containerList = [[NSMutableArray alloc] initWithObjects:R, A, O, R1, A1, O1, R2, A2, O2, R3, A3, O3, nil];    
+    if (!_containerList){
+        _containerList = [[NSMutableArray alloc] init];
+    }else{
+        [_containerList release];
+        _containerList = nil;
+        _containerList = [[NSMutableArray alloc] init];
+    }
+    for (int x=0; x< _numberOfXTiles; x++){
+        for (int y=0; y< _numberOfYTiles; y++){
+            float x_pos = (TILE_WIDTH * x) + (X_SPACER * (x+1));
+            float y_pos = (TILE_HEIGHT * y) + (Y_SPACER * (y+1));
+            NSString *l = [self randomLetter];
+            CGRect containerRect = CGRectMake(x_pos, y_pos, TILE_WIDTH, TILE_HEIGHT);
+            ContainerView *temp = [[[ContainerView alloc] initWithFrame:containerRect :l] autorelease];
+            temp.viewController = self;
+            [_containerList addObject:temp];
+        }
+    }
 }
 
 -(void)setBoard{
@@ -147,7 +142,7 @@ const int NUM_Y_TILES = 4;
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
         [self clearBoard];
-        [self clearBoard];
+        [self clearContainerList];
         [self.view bringSubviewToFront:_menuView];
 	}
 	else {
@@ -235,6 +230,12 @@ const int NUM_Y_TILES = 4;
     _gameView = nil;
     [_menuView release];
     _menuView = nil;
+    [_adView release];
+    _adView = nil;
+    [_xText release];
+    _xText = nil;
+    [_yText release];
+    _yText = nil;
     [super dealloc];
 }
 
@@ -250,10 +251,21 @@ const int NUM_Y_TILES = 4;
 
 -(void)loadGame
 {
+    //SET UP DEFAULT NUMBER OF TILES AND TOTAL TILES IF NOT AVAILABLE
+    if (_numberOfXTiles == 0){
+        _numberOfXTiles = DEFAULT_X_TILES;
+    }
+    if (_numberOfYTiles == 0){
+        _numberOfYTiles = DEFAULT_Y_TILES;
+    }
+    if (_totalTiles == 0){
+        _totalTiles = _numberOfXTiles * _numberOfYTiles;
+    }
+    
     //SET UP CONSTANT ARRAY
-    //self.view.backgroundColor = [UIColor whiteColor];
-    _alphaArray = [[NSArray alloc] initWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
-    _gameLetters = [[NSMutableArray alloc] init];
+    if (!_gameLetters){
+        _gameLetters = [[NSMutableArray alloc] init];
+    }
     [self createGameLetters];
     [self populateContainerList];
     [self setBoard];
@@ -263,24 +275,24 @@ const int NUM_Y_TILES = 4;
 #pragma mark - ADBannerViewDelegate
 -(void)loadAd
 {
-    ADBannerView *adView = [[[ADBannerView alloc] initWithFrame:CGRectZero] autorelease];
-	adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
-	adView.delegate = self; //*********incredibly important*************//
-	adView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait,
+    _adView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+	_adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+	_adView.delegate = self; //*********incredibly important*************//
+	_adView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait,
 											 ADBannerContentSizeIdentifierLandscape,
 											 nil];
 	CGRect myRect = CGRectMake(0, 0, 320, 50);				
-	adView.frame = myRect;
-	adView.hidden = YES;
-	adView.userInteractionEnabled = NO;    
+	_adView.frame = myRect;
+	_adView.hidden = YES;
+	_adView.userInteractionEnabled = NO;    
 }
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)adView 
 {	
     //needed to remove iAd if there isn't any iAds there, required by Apple.
-	adView.userInteractionEnabled = YES;
-	adView.hidden = NO;
-	[self.view addSubview:adView];
+	_adView.userInteractionEnabled = YES;
+	_adView.hidden = NO;
+	[self.view addSubview:_adView];
 	
 }
 
@@ -292,15 +304,31 @@ const int NUM_Y_TILES = 4;
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    _alphaArray = [[NSArray alloc] initWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
     [self loadAd];
     self.view.backgroundColor = [UIColor whiteColor];
     _gameView.backgroundColor = [UIColor whiteColor];
     _menuView.backgroundColor = [UIColor orangeColor];
+    _configView.backgroundColor = [UIColor greenColor];
+    [self.view addSubview:_configView];
     [self.view addSubview:_gameView];
     [self.view addSubview:_menuView];
     [super viewDidLoad];
 }
 
+-(void)loadConfigView
+{
+    if (_numberOfXTiles == 0){
+        _xText.text = [NSString stringWithFormat: @"%d",  DEFAULT_X_TILES];
+    }else{
+        _xText.text = [NSString stringWithFormat:@"%d", _numberOfXTiles];
+    }
+    if (_numberOfYTiles == 0){
+        _yText.text = [NSString stringWithFormat: @"%d", DEFAULT_Y_TILES];
+    }else{
+        _yText.text = [NSString stringWithFormat:@"%d", _numberOfYTiles];
+    }
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -318,6 +346,37 @@ const int NUM_Y_TILES = 4;
 {
     [self loadGame];
     [self.view bringSubviewToFront:_gameView];   
+}
+
+-(IBAction)moveConfigViewToFront
+{
+    [self loadConfigView];
+    [self.view bringSubviewToFront:_configView];
+}
+
+-(void)saveSettings
+{
+    _numberOfXTiles = [_xText.text intValue];
+    _numberOfYTiles = [_yText.text intValue];
+    _totalTiles = _numberOfXTiles * _numberOfYTiles;
+}
+
+-(IBAction)moveMenuViewToFront
+{
+    [self saveSettings];
+    [self.view bringSubviewToFront:_menuView];
+}
+
+-(IBAction)moveMenuViewToFrontFromGame
+{
+    [self clearBoard];
+    [self clearBoard];
+    [self.view bringSubviewToFront:_menuView];    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return NO;
 }
 
 @end
