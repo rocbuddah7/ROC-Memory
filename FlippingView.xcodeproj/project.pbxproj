@@ -232,16 +232,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: ROGER CHENG (3RJ965XNTU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ROGER CHENG (3RJ965XNTU)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ROC Solutions Inc";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ROC Solutions Inc";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "4AA06058-2DBA-4CDA-972F-E8F2E8B8E8E4";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4AA06058-2DBA-4CDA-972F-E8F2E8B8E8E4";
+				PROVISIONING_PROFILE = "CD70D4F5-56F6-4F2E-B315-3CAAC332F4F1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CD70D4F5-56F6-4F2E-B315-3CAAC332F4F1";
 				SDKROOT = iphoneos;
 			};
 			name = Distribution;
@@ -254,7 +254,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlippingView/FlippingView-Prefix.pch";
 				INFOPLIST_FILE = "FlippingView/FlippingView-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Memory;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
@@ -266,8 +266,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: ROGER CHENG (3RJ965XNTU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ROGER CHENG (3RJ965XNTU)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ROC Solutions Inc";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ROC Solutions Inc";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -276,8 +276,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0.1;
-				PROVISIONING_PROFILE = "4AA06058-2DBA-4CDA-972F-E8F2E8B8E8E4";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4AA06058-2DBA-4CDA-972F-E8F2E8B8E8E4";
+				PROVISIONING_PROFILE = "CD70D4F5-56F6-4F2E-B315-3CAAC332F4F1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CD70D4F5-56F6-4F2E-B315-3CAAC332F4F1";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -286,16 +286,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: ROGER CHENG (3RJ965XNTU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ROGER CHENG (3RJ965XNTU)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ROC Solutions Inc";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ROC Solutions Inc";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "4AA06058-2DBA-4CDA-972F-E8F2E8B8E8E4";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4AA06058-2DBA-4CDA-972F-E8F2E8B8E8E4";
+				PROVISIONING_PROFILE = "CD70D4F5-56F6-4F2E-B315-3CAAC332F4F1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CD70D4F5-56F6-4F2E-B315-3CAAC332F4F1";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -309,7 +309,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlippingView/FlippingView-Prefix.pch";
 				INFOPLIST_FILE = "FlippingView/FlippingView-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Memory;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -324,7 +324,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FlippingView/FlippingView-Prefix.pch";
 				INFOPLIST_FILE = "FlippingView/FlippingView-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = Memory;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;

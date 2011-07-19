@@ -29,6 +29,13 @@
     int _totalTiles;
     IBOutlet UITextField *_xText;
     IBOutlet UITextField *_yText;
+    IBOutlet UILabel *_xMax;
+    IBOutlet UILabel *_yMax;
+    IBOutlet UISegmentedControl *_tileSize;
+    IBOutlet UILabel *_warning;
+    IBOutlet UIButton *_saveButton;
+    int _TILE_WIDTH;
+    int _TILE_HEIGHT;
 }
 
 @property (nonatomic, retain) NSArray *alphaArray;
@@ -44,6 +51,8 @@
 @property int numberOfXTiles;
 @property int numberOfYTiles;
 @property int totalTiles;
+@property int TILE_WIDTH;
+@property int TILE_HEIGHT;
 
 -(void)disableTiles :(NSString *)letter;
 -(void)resetTiles;

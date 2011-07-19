@@ -13,10 +13,18 @@
 //total y is 410
 //spacer x = (320 - (tile width * number of x tiles)) / (number of x tiles + 1)
 //spacer y = (410 - (tile height * number of y tiles)) / (number of y tiles + 1)
-const int TILE_WIDTH = 50;
-const int TILE_HEIGHT = 50;
-const int DEFAULT_X_TILES = 4;
-const int DEFAULT_Y_TILES = 4;
+const int DEFAULT_TILE_WIDTH = 80;
+const int DEFAULT_TILE_HEIGHT = 80;
+const int DEFAULT_SMALL_HEIGHT = 57;
+const int DEFAULT_SMALL_WIDTH = 57;
+const int DEFAULT_LARGE_HEIGHT = 80;
+const int DEFAULT_LARGE_WIDTH = 80;
+const int DEFAULT_X_TILES = 3;
+const int DEFAULT_Y_TILES = 2;
+const int MAX_SMALL_X_TILES = 5;
+const int MAX_SMALL_Y_TILES = 6;
+const int MAX_LARGE_X_TILES = 3;
+const int MAX_LARGE_Y_TILES = 4;
 
 @implementation FlippingViewViewController
 @synthesize openTiles = _openTiles;
@@ -32,6 +40,9 @@ const int DEFAULT_Y_TILES = 4;
 @synthesize numberOfXTiles = _numberOfXTiles;
 @synthesize numberOfYTiles = _numberOfYTiles;
 @synthesize totalTiles = _totalTiles;
+@synthesize TILE_WIDTH = _TILE_WIDTH;
+@synthesize TILE_HEIGHT = _TILE_HEIGHT;
+
 -(int)generateRandomInt
 {
     int j = arc4random() % 25;
@@ -78,6 +89,7 @@ const int DEFAULT_Y_TILES = 4;
 }
 
 -(void)startGame{
+    //clear game variables and counters, start timer
     _openTiles = 0;
     _currentLetter = nil;
     _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(targetMethod:) userInfo:nil repeats:YES];
@@ -98,13 +110,13 @@ const int DEFAULT_Y_TILES = 4;
 
 -(int)getXSpacer:(int)numOfXTiles
 {
-    int temp = (_gameView.frame.size.width - (TILE_WIDTH * numOfXTiles)) / (numOfXTiles + 1);
+    int temp = (_gameView.frame.size.width - (_TILE_WIDTH * numOfXTiles)) / (numOfXTiles + 1);
     return temp;
 }
 
 -(int)getYSpacer:(int)numOfYTiles
 {
-    int temp = ((_gameView.frame.size.height - 50) - (TILE_HEIGHT * numOfYTiles)) / (numOfYTiles + 1);
+    int temp = ((_gameView.frame.size.height - 50) - (_TILE_HEIGHT * numOfYTiles)) / (numOfYTiles + 1);
     return temp;    
 }
 
@@ -121,10 +133,10 @@ const int DEFAULT_Y_TILES = 4;
     }
     for (int x=0; x< _numberOfXTiles; x++){
         for (int y=0; y< _numberOfYTiles; y++){
-            float x_pos = (TILE_WIDTH * x) + (X_SPACER * (x+1));
-            float y_pos = (TILE_HEIGHT * y) + (Y_SPACER * (y+1));
+            float x_pos = (_TILE_WIDTH * x) + (X_SPACER * (x+1));
+            float y_pos = (_TILE_HEIGHT * y) + (Y_SPACER * (y+1));
             NSString *l = [self randomLetter];
-            CGRect containerRect = CGRectMake(x_pos, y_pos, TILE_WIDTH, TILE_HEIGHT);
+            CGRect containerRect = CGRectMake(x_pos, y_pos, _TILE_WIDTH, _TILE_HEIGHT);
             ContainerView *temp = [[[ContainerView alloc] initWithFrame:containerRect :l] autorelease];
             temp.viewController = self;
             [_containerList addObject:temp];
@@ -133,10 +145,33 @@ const int DEFAULT_Y_TILES = 4;
 }
 
 -(void)setBoard{
+    //adds each container view tiles into the gameview as subviews
     for (int i=0;i<[_containerList count];i++){
         ContainerView *c = [_containerList objectAtIndex:i];
         [_gameView addSubview:c];
     }
+}
+
+-(void)loadGame
+{
+    //SET UP DEFAULT NUMBER OF TILES AND TOTAL TILES IF NOT AVAILABLE
+    if (_numberOfXTiles == 0){
+        _numberOfXTiles = DEFAULT_X_TILES;
+    }
+    if (_numberOfYTiles == 0){
+        _numberOfYTiles = DEFAULT_Y_TILES;
+    }
+    if (_totalTiles == 0){
+        _totalTiles = _numberOfXTiles * _numberOfYTiles;
+    }
+    
+    //SET UP CONSTANT ARRAY
+    if (!_gameLetters){
+        _gameLetters = [[NSMutableArray alloc] init];
+    }
+    [self createGameLetters];
+    [self populateContainerList];
+    [self setBoard];    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -148,9 +183,7 @@ const int DEFAULT_Y_TILES = 4;
 	else {
         [self clearBoard];
         [self clearContainerList];
-        [self createGameLetters];
-        [self populateContainerList];
-        [self setBoard];
+        [self loadGame];
         [self startGame];
 	}
 }
@@ -236,6 +269,16 @@ const int DEFAULT_Y_TILES = 4;
     _xText = nil;
     [_yText release];
     _yText = nil;
+    [_xMax release];
+    _xMax = nil;
+    [_yMax release];
+    _yMax = nil;
+    [_tileSize release];
+    _tileSize = nil;
+    [_warning release];
+    _warning = nil;
+    [_saveButton release];
+    _saveButton = nil;
     [super dealloc];
 }
 
@@ -248,29 +291,6 @@ const int DEFAULT_Y_TILES = 4;
 }
 
 #pragma mark - View lifecycle
-
--(void)loadGame
-{
-    //SET UP DEFAULT NUMBER OF TILES AND TOTAL TILES IF NOT AVAILABLE
-    if (_numberOfXTiles == 0){
-        _numberOfXTiles = DEFAULT_X_TILES;
-    }
-    if (_numberOfYTiles == 0){
-        _numberOfYTiles = DEFAULT_Y_TILES;
-    }
-    if (_totalTiles == 0){
-        _totalTiles = _numberOfXTiles * _numberOfYTiles;
-    }
-    
-    //SET UP CONSTANT ARRAY
-    if (!_gameLetters){
-        _gameLetters = [[NSMutableArray alloc] init];
-    }
-    [self createGameLetters];
-    [self populateContainerList];
-    [self setBoard];
-    [self startGame];    
-}
 
 #pragma mark - ADBannerViewDelegate
 -(void)loadAd
@@ -301,9 +321,24 @@ const int DEFAULT_Y_TILES = 4;
     NSLog(@"%@", [error description]);
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
+-(void)initMemory
 {
+    if (_numberOfXTiles == 0){
+        _numberOfXTiles = DEFAULT_X_TILES;
+    }
+    if (_numberOfYTiles == 0){
+        _numberOfYTiles = DEFAULT_Y_TILES;
+    }
+    if (_totalTiles == 0){
+        _totalTiles = _numberOfXTiles * _numberOfYTiles;
+    }
+    if (_TILE_WIDTH == 0){
+        _TILE_WIDTH = DEFAULT_TILE_WIDTH;
+    }
+    if (_TILE_HEIGHT == 0){
+        _TILE_HEIGHT = DEFAULT_TILE_HEIGHT;
+    }    
+    _tileSize.selectedSegmentIndex = 1;
     _alphaArray = [[NSArray alloc] initWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
     [self loadAd];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -312,7 +347,12 @@ const int DEFAULT_Y_TILES = 4;
     _configView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:_configView];
     [self.view addSubview:_gameView];
-    [self.view addSubview:_menuView];
+    [self.view addSubview:_menuView];    
+}
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad
+{
+    [self initMemory];
     [super viewDidLoad];
 }
 
@@ -328,6 +368,23 @@ const int DEFAULT_Y_TILES = 4;
     }else{
         _yText.text = [NSString stringWithFormat:@"%d", _numberOfYTiles];
     }
+    if (_TILE_WIDTH == 0){
+        _TILE_WIDTH = DEFAULT_TILE_WIDTH;
+    }
+    if (_TILE_HEIGHT == 0){
+        _TILE_HEIGHT = DEFAULT_TILE_HEIGHT;
+    }
+    
+    if (_TILE_WIDTH == DEFAULT_SMALL_WIDTH){
+        _xMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_SMALL_X_TILES];
+        _yMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_SMALL_Y_TILES];        
+    }else{
+        _xMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_LARGE_X_TILES];
+        _yMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_LARGE_Y_TILES];                
+    }
+    _warning.lineBreakMode  = UILineBreakModeWordWrap;
+    _warning.numberOfLines = 0;
+    [_warning setHidden:YES];
 }
 - (void)viewDidUnload
 {
@@ -345,6 +402,7 @@ const int DEFAULT_Y_TILES = 4;
 -(IBAction)moveGameViewToFront
 {
     [self loadGame];
+    [self startGame];
     [self.view bringSubviewToFront:_gameView];   
 }
 
@@ -361,22 +419,185 @@ const int DEFAULT_Y_TILES = 4;
     _totalTiles = _numberOfXTiles * _numberOfYTiles;
 }
 
+-(void)validateSettings{
+    if (_tileSize.selectedSegmentIndex == 0){
+        //small is selected
+    }else{
+        
+    }
+}
+
 -(IBAction)moveMenuViewToFront
 {
+    [self validateSettings];
     [self saveSettings];
     [self.view bringSubviewToFront:_menuView];
 }
 
 -(IBAction)moveMenuViewToFrontFromGame
 {
+    [_timer invalidate];
     [self clearBoard];
-    [self clearBoard];
+    [self clearContainerList];
     [self.view bringSubviewToFront:_menuView];    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return NO;
+}
+
+-(NSString *)checkYMax{
+    NSString * warningMessage;
+    warningMessage = nil;
+    if (_tileSize.selectedSegmentIndex == 0){
+        if ([_yText.text intValue] > MAX_SMALL_Y_TILES){
+            warningMessage = [NSString stringWithFormat: @"Number of vertical tiles can't be larger than %d.", MAX_SMALL_Y_TILES];
+        }
+        
+    }else{
+        if ([_yText.text intValue] > MAX_LARGE_Y_TILES){
+            warningMessage = [NSString stringWithFormat: @"Number of vertical tiles can't be larger than %d.", MAX_LARGE_Y_TILES];
+        }        
+    }
+    return warningMessage;
+}
+
+-(NSString *)checkXMax{
+    NSString * warningMessage;
+    warningMessage = nil;
+    if (_tileSize.selectedSegmentIndex == 0){
+        if ([_xText.text intValue] > MAX_SMALL_X_TILES){
+            warningMessage = [NSString stringWithFormat: @"Number of horizontal tiles can't be larger than %d.", MAX_SMALL_X_TILES];
+        }
+        
+    }else{
+        if ([_xText.text intValue] > MAX_LARGE_X_TILES){
+            warningMessage = [NSString stringWithFormat: @"Number of horizontal tiles can't be larger than %d.", MAX_LARGE_X_TILES];
+        }        
+    }
+    return warningMessage;
+}
+
+-(NSString *)checkEvenTile{
+    NSString * warningMessage;
+    warningMessage = nil;
+    //check total tiles
+    int temp = [_xText.text intValue] * [_yText.text intValue];
+    if (temp % 2 != 0){
+        warningMessage = @"Total number of tiles should be an even number.";
+    }    
+    return warningMessage;
+}
+
+-(IBAction) segmentedControlIndexChanged{
+    NSString * warningMessage;
+    NSString * maxXMessage;
+    NSString * maxYMessage;
+    
+    switch (_tileSize.selectedSegmentIndex) {
+        case 0:
+            _TILE_HEIGHT = DEFAULT_SMALL_HEIGHT;
+            _TILE_WIDTH = DEFAULT_SMALL_WIDTH;
+            _xMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_SMALL_X_TILES];
+            _yMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_SMALL_Y_TILES];            
+            break;
+        case 1:
+            _TILE_HEIGHT = DEFAULT_LARGE_HEIGHT;
+            _TILE_WIDTH = DEFAULT_LARGE_WIDTH;
+            _xMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_LARGE_X_TILES];
+            _yMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_LARGE_Y_TILES];            
+            break;
+        default:
+            _xMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_LARGE_X_TILES];
+            _yMax.text = [NSString stringWithFormat:@"MAX = %d", MAX_LARGE_Y_TILES];            
+            _TILE_HEIGHT = DEFAULT_LARGE_HEIGHT;
+            _TILE_WIDTH = DEFAULT_LARGE_WIDTH;            
+            break;
+    }
+    warningMessage = nil;
+    maxXMessage = [self checkXMax];
+    maxYMessage = [self checkYMax];
+
+    if (maxXMessage){
+        if (maxYMessage){
+            warningMessage = [NSString stringWithFormat:@"%@ %@", maxXMessage, maxYMessage];
+        }
+    }else{
+        if (maxYMessage){
+            warningMessage = maxYMessage;
+        }
+    }
+    
+    if (warningMessage){
+        _warning.text = warningMessage;
+        [_warning setHidden:NO];
+        [_saveButton setHidden:YES];
+    }else{
+        [_warning setHidden:YES];
+        [_saveButton setHidden:NO];
+    }    
+}
+
+-(IBAction)validateYText{
+    NSString * warningMessage;
+    NSString * maxMessage;
+    NSString * evenMessage;
+    
+    warningMessage = nil;
+    maxMessage = [self checkYMax];
+    evenMessage = [self checkEvenTile];
+    
+    if (maxMessage){
+        if (evenMessage){
+            warningMessage = [NSString stringWithFormat:@"%@ %@", maxMessage, evenMessage];
+        }else{
+            warningMessage = maxMessage;
+        }
+    }else{
+        if (evenMessage){
+            warningMessage = evenMessage;
+        }
+    }
+    
+    if (warningMessage){
+        _warning.text = warningMessage;
+        [_warning setHidden:NO];
+        [_saveButton setHidden:YES];
+    }else{
+        [_warning setHidden:YES];
+        [_saveButton setHidden:NO];
+    }
+}
+
+-(IBAction)validateXText{
+    NSString * warningMessage;
+    NSString * maxMessage;
+    NSString * evenMessage;
+    warningMessage = nil;
+    maxMessage = [self checkYMax];
+    evenMessage = [self checkEvenTile];
+
+    if (maxMessage){
+        if (evenMessage){
+            warningMessage = [NSString stringWithFormat:@"%@ %@", maxMessage, evenMessage];
+        }else{
+            warningMessage = maxMessage;
+        }
+    }else{
+        if (evenMessage){
+            warningMessage = evenMessage;
+        }
+    }
+    
+    if (warningMessage){
+        _warning.text = warningMessage;
+        [_warning setHidden:NO];
+        [_saveButton setHidden:YES];
+    }else{
+        [_warning setHidden:YES];
+        [_saveButton setHidden:NO];
+    }
 }
 
 @end
